@@ -1,15 +1,23 @@
-import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import Image, { StaticImageData } from "next/image";
+import { useRouter } from "next/router";
 
 interface SlideItemProps {
   title: string;
   subtitle: string;
   img: string | StaticImageData;
+  url: string;
 }
 
-export const SlideItem = ({ title, subtitle, img }: SlideItemProps) => {
+export const SlideItem = ({ title, subtitle, img, url }: SlideItemProps) => {
+  const { push } = useRouter();
+
+  const handleGoToPage = () => {
+    push(url);
+  };
+
   return (
-    <Box position="relative">
+    <Box position="relative" cursor="pointer" onClick={handleGoToPage}>
       <Image src={img} />
       <Box
         position="absolute"
@@ -22,13 +30,18 @@ export const SlideItem = ({ title, subtitle, img }: SlideItemProps) => {
           direction="column"
           justify="center"
           align="center"
-          rowGap="16px"
+          rowGap={[0, "16px"]}
           height="100%"
         >
-          <Text color="#F5F8FA" fontSize="48px" fontWeight="bold">
+          <Text color="#F5F8FA" fontSize={["24px", "48px"]} fontWeight="bold">
             {title}
           </Text>
-          <Text color="#DADADA" fontSize="24px" fontWeight="semibold" mt="0px">
+          <Text
+            color="#DADADA"
+            fontSize={["14px", "24px"]}
+            fontWeight="semibold"
+            mt="0px"
+          >
             {subtitle}
           </Text>
         </Flex>
